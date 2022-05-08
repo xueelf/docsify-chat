@@ -4,7 +4,7 @@ A docsify plugin for generate chat panel from markdown
 
 ## Installation
 
-1. Add the docsify-tabs plugin to your `index.html` after docsify.
+1. Add the docsify-chat plugin to your `index.html` after docsify.
 
    ```html
    <!-- Docsify -->
