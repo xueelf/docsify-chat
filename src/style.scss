@@ -1,0 +1,103 @@
+.chat-panel {
+  position: relative;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  padding: 0.3rem 0;
+  background-color: #00000005;
+  overflow-x: auto;
+
+  .controls {
+    display: initial;
+    width: 100%;
+    padding: 0.5rem;
+
+    .circle {
+      display: inline-block;
+      margin: 0.5rem 0rem 0.5rem 0.2rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+    }
+
+    .red {
+      background-color: #ff5f56;
+    }
+
+    .yellow {
+      background-color: #ffbd2e;
+    }
+
+    .green {
+      background-color: #27c93f;
+    }
+
+    .title {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      font-size: 0.8rem;
+      line-height: 1rem;
+      top: 0.8rem;
+    }
+  }
+
+  .chat-content {
+    padding: 0 1rem;
+  }
+
+  .chat-message {
+    position: relative;
+    margin: 1rem 0;
+    opacity: 0;
+    transform: translate(-10%);
+    transition: transform 0.4s ease-out, opacity 0.4s ease-in;
+
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      overflow: hidden;
+      border-radius: 50%;
+      line-height: 2.5rem;
+      color: #fff;
+      text-align: center;
+      display: inline-block;
+
+      img {
+        display: inline-flex;
+        line-height: 0;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+    }
+
+    .message-box {
+      display: inline-block;
+      margin-left: 0.5rem;
+      max-width: 90%;
+      vertical-align: top;
+
+      .nickname {
+        font-size: 0.8rem;
+        color: gray;
+      }
+
+      .message {
+        position: relative;
+        font-size: 0.9rem;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        word-break: break-all;
+        padding: 0.6rem 0.7rem;
+        margin-top: 0.2rem;
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+      }
+    }
+  }
+
+  .show {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
