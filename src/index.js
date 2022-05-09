@@ -72,7 +72,7 @@ function renderChat(content, vm) {
 
         chatPanel = chatPanel.replace(chatMatch[0], `
           <div class="chat-content">
-            <div class="chat-message show">
+            <div class="chat-message">
               ${userAvatar}
               <div class="message-box">
                 <div class="nickname">${nickname}</div>
@@ -93,13 +93,38 @@ function renderChat(content, vm) {
 function docsifyChat(hook, vm) {
   let hasChat = false;
 
-  hook.beforeEach(function (content) {
+  hook.beforeEach(content => {
     hasChat = regex.chatPanelMarkup.test(content);
 
     if (hasChat) {
       content = renderChat(content, vm);
     }
     return content;
+  });
+
+  hook.mounted(() => {
+    const chat_panel = document.getElementsByClassName(classNames.chatPanel);
+
+    document.addEventListener('scroll', () => {
+      // 滚动条高度 + 视窗高度 = 可见区域底部高度
+      const visibleBottom = window.scrollY + document.documentElement.clientHeight;
+      // 可见区域顶部高度
+      const visibleTop = window.scrollY;
+
+      for (let i = 0; i < chat_panel.length; i++) {
+        const centerY = chat_panel[i].offsetTop + (chat_panel[i].offsetHeight / 2);
+
+        if (centerY > visibleTop && centerY < visibleBottom) {
+          document
+            .querySelectorAll(`.${classNames.chatPanel} .${classNames.chatMessage}`)
+            .forEach(element => element.setAttribute("class", 'chat-message show'))
+        } else {
+          document
+            .querySelectorAll(`.${classNames.chatPanel} .${classNames.chatMessage}`)
+            .forEach(element => element.setAttribute("class", 'chat-message'))
+        }
+      }
+    });
   });
 }
 

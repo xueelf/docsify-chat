@@ -2,7 +2,21 @@
 
 A docsify plugin for generate chat panel from markdown
 
-![docsify-chat](https://vip2.loli.io/2022/05/09/cC1HmVvPe9jQLpk.jpg)
+```markdown
+<!-- chat:start -->
+
+#### **yuki**
+
+Do you know 0.1 + 0.2 = ?
+
+#### **kokkoro**
+
+Sure, equal 0.30000000000000004 !
+
+<!-- chat:end -->
+```
+
+![nameless](/example/nameless.svg)
 
 ## Installation
 
@@ -54,13 +68,13 @@ A docsify plugin for generate chat panel from markdown
    ```markdown
    <!-- chat:start -->
 
-   #### **yuki**
-
-   hello
-
    #### **kokkoro**
 
-   hello world
+   八嘎、hentai、无路赛
+
+   #### **yuki**
+
+   多来点
 
    <!-- chat:end -->
    ```
