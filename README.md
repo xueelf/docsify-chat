@@ -5,18 +5,18 @@ A docsify plugin for generate chat panel from markdown
 ```markdown
 <!-- chat:start -->
 
-#### **yuki**
-
-Do you know 0.1 + 0.2 = ?
-
 #### **kokkoro**
 
-Sure, equal 0.30000000000000004 !
+八嘎 hentai 无路赛！
+
+#### **yuki**
+
+多来点
 
 <!-- chat:end -->
 ```
 
-![nameless](/example/nameless.svg)
+![docsify_chat](https://vip2.loli.io/2022/05/10/9HXngprql6w3tmJ.png)
 
 ## Installation
 
@@ -70,11 +70,11 @@ Sure, equal 0.30000000000000004 !
 
    #### **kokkoro**
 
-   八嘎、hentai、无路赛
+   hello
 
    #### **yuki**
 
-   多来点
+   hello world
 
    <!-- chat:end -->
    ```
