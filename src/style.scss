@@ -4,7 +4,7 @@
   margin: 1rem auto;
   padding: 0.3rem 0;
   background-color: rgb(246, 248, 250);
-  overflow-x: auto;
+  overflow: hidden;
 
   .controls {
     display: initial;
@@ -52,6 +52,16 @@
     transform: translate(-10%);
     transition: transform 0.4s ease-out, opacity 0.4s ease-in;
 
+    &.myself {
+      text-align: right;
+      transform: translate(10%);
+    }
+
+    &.show {
+      opacity: 1;
+      transform: translate(0);
+    }
+
     .avatar {
       width: 2.5rem;
       height: 2.5rem;
@@ -94,10 +104,5 @@
           rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
       }
     }
-  }
-
-  .show {
-    opacity: 1;
-    transform: translate(0);
   }
 }

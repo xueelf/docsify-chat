@@ -8,11 +8,14 @@ const classNames = {
 };
 const regex = {
   chatPanelMarkup: /[\r\n]*(\s*)(<!-+\s+chat:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n\s]+(<!-+\s+chat:\s*?end\s+-+>)/m,
-  chatCommentMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+chat:\s*?end\s+-+>)/
+
+  chatCommentMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+chat:\s*?end\s+-+>)/,
 };
 const setting = {
   title: '聊天记录',
   users: [],
+  myself: null,
+  animation: 50,
 };
 
 function stringToColour(str) {
@@ -66,21 +69,28 @@ function renderChat(content, vm) {
         const nickname = chatMatch[2];
         const message = chatMatch[3].trim();
         const user = setting.users.filter(item => item.nickname === nickname)[0] ?? {};
+        const isMe = setting.myself === nickname;
         const userAvatar = user.avatar
           ? `<div class="avatar"><img src="${user.avatar}"></div>`
           : generateAvatar(nickname);
-
-        chatPanel = chatPanel.replace(chatMatch[0], `
+        const chatContentTemplate = `
           <div class="chat-content">
-            <div class="chat-message">
-              ${userAvatar}
+            <div class="chat-message ${!isMe ? '' : 'myself'}">
+              $1
               <div class="message-box">
                 <div class="nickname">${nickname}</div>
                 <div class="message">${message}</div>
               </div>
+              $2
             </div>
           </div>
-        `)
+        `;
+        const avatarPosition = !isMe
+          ? ['$1', '$2']
+          : ['$2', '$1'];
+        const chatContent = chatContentTemplate.replace(avatarPosition[0], userAvatar).replace(avatarPosition[1], '');
+
+        chatPanel = chatPanel.replace(chatMatch[0], chatContent);
       }
     }
     chatPanel = chatPanel.replace(chatPanelStart, chatStartReplacement);
@@ -102,29 +112,30 @@ function docsifyChat(hook, vm) {
     return content;
   });
 
-  hook.mounted(() => {
+  hook.doneEach(() => {
     const chat_panel = document.getElementsByClassName(classNames.chatPanel);
+    const observer = new IntersectionObserver((entries) => {
 
-    document.addEventListener('scroll', () => {
-      // 滚动条高度 + 视窗高度 = 可见区域底部高度
-      const visibleBottom = window.scrollY + document.documentElement.clientHeight;
-      // 可见区域顶部高度
-      const visibleTop = window.scrollY;
+      entries.forEach(entrie => {
+        let timeoutID;
+        const chat_message = entrie.target.getElementsByClassName(classNames.chatMessage);
 
-      for (let i = 0; i < chat_panel.length; i++) {
-        const centerY = chat_panel[i].offsetTop + (chat_panel[i].offsetHeight / 2);
+        for (let i = 0; i < chat_message.length; i++) {
+          const message = chat_message[i];
 
-        if (centerY > visibleTop && centerY < visibleBottom) {
-          document
-            .querySelectorAll(`.${classNames.chatPanel} .${classNames.chatMessage}`)
-            .forEach(element => element.setAttribute("class", 'chat-message show'))
-        } else {
-          document
-            .querySelectorAll(`.${classNames.chatPanel} .${classNames.chatMessage}`)
-            .forEach(element => element.setAttribute("class", 'chat-message'))
+          if (entrie.isIntersecting) {
+            timeoutID = setTimeout(() => message.classList.add('show'), i * setting.animation);
+          } else {
+            // TODO ⎛⎝≥⏝⏝≤⎛⎝ clearTimeout
+            message.classList.remove('show');
+          }
         }
-      }
+      });
     });
+
+    for (const element of chat_panel) {
+      observer.observe(element);
+    }
   });
 }
 

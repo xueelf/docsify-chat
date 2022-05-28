@@ -1,6 +1,6 @@
 {
   "name": "docsify-chat",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A docsify plugin for generate chat panel from markdown",
   "main": "lib/docsify-chat.js",
   "scripts": {
