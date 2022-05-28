@@ -94,11 +94,17 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
   window.$docsify = {
     // ...
     chat: {
+      // chat panel title
       title: '聊天记录',
+      // set avatar url
       users: [
         { nickname: 'yuki', avatar: '' },
         { nickname: 'kokkoro', avatar: '' },
       ],
+      // message dialog on the right (myself)
+      myself: 'yuki',
+      // animation interval (ms)
+      animation: 50,
     }
   };
 </script>
