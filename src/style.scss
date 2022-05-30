@@ -53,8 +53,16 @@
     transition: transform 0.4s ease-out, opacity 0.4s ease-in;
 
     &.myself {
-      text-align: right;
       transform: translate(10%);
+
+      .message-box {
+        margin-left: 0;
+        margin-right: 0.5rem;
+      }
+
+      .nickname {
+        text-align: right;
+      }
     }
 
     &.show {
