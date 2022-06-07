@@ -8,7 +8,7 @@ const classNames = {
 };
 const regex = {
   chatPanelMarkup: /[\r\n]*(\s*)(<!-+\s+chat:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n\s]+(<!-+\s+chat:\s*?end\s+-+>)/m,
-
+  panelTitleMarkup: /[\r\n]*(\s*)<!-+\s+title:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+chat?:(?!replace))/m,
   chatCommentMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+chat:\s*?end\s+-+>)/,
 };
 const setting = {
@@ -46,18 +46,25 @@ function renderChat(content, vm) {
 
   while (chatPanelMatch = regex.chatPanelMarkup.exec(content)) {
     let chatPanel = chatPanelMatch[0];
+    let panelTitle = setting.title;
     let chatStartReplacement = '';
     let chatEndReplacement = '';
 
+    const hasTitle = regex.panelTitleMarkup.test(chatPanel);
     const hasComments = regex.chatCommentMarkup.test(chatPanel);
     const chatPanelStart = chatPanelMatch[2];
     const chatPanelEnd = chatPanelMatch[4];
+
+    if (hasTitle) {
+      const TitleMatch = regex.panelTitleMarkup.exec(chatPanel);
+      panelTitle = TitleMatch[2];
+    }
     const chatControls = `
       <div class="${classNames.chatControls}">
         <div class="circle red"></div>
         <div class="circle yellow"></div>
         <div class="circle green"></div>
-        <div class="title">${setting.title}</div>
+        <div class="title">${panelTitle}</div>
       </div>
     `;
 

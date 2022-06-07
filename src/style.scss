@@ -53,6 +53,7 @@
     transition: transform 0.4s ease-out, opacity 0.4s ease-in;
 
     &.myself {
+      text-align: right;
       transform: translate(10%);
 
       .message-box {
