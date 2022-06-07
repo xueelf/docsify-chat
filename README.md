@@ -97,10 +97,7 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
       // chat panel title
       title: '聊天记录',
       // set avatar url
-      users: [
-        { nickname: 'yuki', avatar: '' },
-        { nickname: 'kokkoro', avatar: '' },
-      ],
+      users: [],
       // message dialog on the right (myself)
       myself: 'yuki',
       // animation interval (ms)
@@ -110,8 +107,95 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
 </script>
 ```
 
+### title
+
+- Type: `string`
+- Default: `'聊天记录'`
+
+Sets the chat panel title.
+
+You can also set the title for each chat panel individually in `<!-- title:xxx -->`, 
+
+**Configuration**
+
+```javascript
+window.$docsify = {
+  // ...
+  chat: {
+    title: 'chat history'
+  }
+};
+```
+
+**Example**
+
+```markdown
+<!-- chat:start -->
+
+<!-- title:yuki's chat history -->
+
+<!-- chat:end -->
+```
+
+### users
+
+- Type: `array`
+- Default: `[]`
+
+Specify a nickname to match the user's avatar.
+
+**Configuration**
+
+```javascript
+window.$docsify = {
+  // ...
+  chat: {
+    users: [
+      { nickname: 'yuki', avatar: 'images/yuki.png' },
+      { nickname: 'kokkoro', avatar: 'images/kokkoro.png' },
+    ]
+  }
+};
+```
+
+### myself
+
+- Type: `string`
+- Default: `null`
+
+Set your own global nickname, the dialog will be displayed on the right side of the chat panel.
+
+**Configuration**
+
+```javascript
+window.$docsify = {
+  // ...
+  chat: {
+    myself: 'yuki'
+  }
+};
+```
+
+### animation
+
+- Type: `number`
+- Default: `50`
+
+Adjust the duration of the chat panel fade-in and fade-out animation.
+
+**Configuration**
+
+```javascript
+window.$docsify = {
+  // ...
+  chat: {
+    animation: 50
+  }
+};
+```
+
 ## Postscript
 
 Because I wrote a chatbot framework, I needed a chat panel for illustrate. before I took screenshots directly in the software, but it felt too troublesome. I was thinking why can't it be generated directly with markdown? I've been looking for a long time, but I can't find any similar plugins, so I made one myself.
 
-In order to save time, the syntax refers to docsify-tabs, which took only half a day to make. Although it basically meets daily use, there may be some unknown bugs.
+In order to save time, the syntax refers to [docsify-tabs](https://github.com/jhildenbiddle/docsify-tabs), which took only half a day to make. Although it basically meets daily use, there may be some unknown bugs.
