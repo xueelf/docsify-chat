@@ -3,21 +3,103 @@ import './style.scss';
 
 const classNames = {
   chatPanel: 'chat-panel',
-  chatControls: 'controls',
   chatMessage: 'chat-message',
 };
+const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 const regex = {
   chatPanelMarkup: /[\r\n]*(\s*)(<!-+\s+chat:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n\s]+(<!-+\s+chat:\s*?end\s+-+>)/m,
   panelTitleMarkup: /[\r\n]*(\s*)<!-+\s+title:\s*(.*)\s+-+>/m,
   chatCommentMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+chat:\s*?end\s+-+>)/,
 };
 const setting = {
+  os: isMac ? 'mac' : 'windows',
   title: '聊天记录',
   users: [],
   myself: null,
   animation: 50,
 };
+const titlebarIcon = {
+  mac: {
+    close: `
+      <svg width="7" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path stroke="#000" stroke-width="1.2" stroke-linecap="round" d="M1.182 5.99L5.99 1.182m0 4.95L1.182 1.323">
+        </path>
+      </svg>
+    `,
+    minimize: `
+      <svg width="6" height="1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path stroke="#000" stroke-width="2" stroke-linecap="round" d="M.61.703h5.8"></path>
+      </svg>
+    `,
+    stretch: `
+      <svg
+        viewBox="0 0 13 13"
+        xmlns="http://www.w3.org/2000/svg"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        stroke-linejoin="round"
+        stroke-miterlimit="2"
+      >
+        <path d="M4.871 3.553L9.37 8.098V3.553H4.871zm3.134 5.769L3.506 4.777v4.545h4.499z"></path>
+        <circle cx="6.438" cy="6.438" r="6.438" fill="none"></circle>
+      </svg>
+    `,
+  },
+  windows: {
+    close: `
+      <svg
+        version="1.0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="512.000000pt"
+        height="512.000000pt"
+        viewBox="0 0 512.000000 512.000000"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+          <path
+            d="M900 4272 c-46 -23 -75 -79 -65 -130 6 -33 98 -129 778 -809 l772 -773 -772 -772 c-849 -851 -807 -802 -767 -885 25 -51 77 -78 129 -69 36 7 110 78 813 779 l772 772 773 -772 c702 -701 776 -772 812 -779 52 -9 104 18 129 69 40 83 82 34 -767 885 l-772 772 772 773 c680 680 772 776 778 809 15 82 -61 158 -143 143 -33 -6 -129 -98 -810 -778 l-772 -772 -768 767 c-428 428 -779 772 -795 777 -39 15 -56 14 -97 -7z" />
+        </g>
+      </svg>
+    `,
+    minimize: `
+      <svg
+        version="1.0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="512.000000pt"
+        height="512.000000pt"
+        viewBox="0 0 512.000000 512.000000"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+          <path
+            d="M724 2751 c-105 -64 -109 -209 -8 -272 l39 -24 1805 0 1805 0 35 22 c101 63 104 194 6 267 l-27 21 -1812 3 c-1761 2 -1813 1 -1843 -17z" />
+        </g>
+      </svg>
+    `,
+    stretch: `
+      <svg
+        version="1.0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="512.000000pt"
+        height="512.000000pt"
+        viewBox="0 0 512.000000 512.000000"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+          <path
+            d="M1100 4464 c-218 -47 -399 -229 -445 -449 -22 -105 -22 -2805 0 -2910 47 -222 228 -403 450 -450 105 -22 2805 -22 2910 0 222 47 403 228 450 450 22 105 22 2805 0 2910 -47 222 -228 403 -450 450 -102 21 -2815 21 -2915 -1z m2870 -315 c58 -18 130 -78 159 -134 l26 -50 3 -1385 c2 -1001 0 -1396 -9 -1426 -16 -60 -76 -133 -134 -163 l-50 -26 -1405 0 -1405 0 -50 26 c-58 30 -118 103 -134 163 -9 30 -11 425 -9 1426 l3 1385 26 50 c28 53 100 116 153 133 46 15 2776 16 2826 1z" />
+        </g>
+      </svg>
+    `,
+  },
+};
 
+/**
+ * 字符串转换 color 十六进制
+ * 
+ * @param {string} str - 字符
+ * @returns 十六进制
+ */
 function stringToColour(str) {
   let hash = 0;
   let colour = '#';
@@ -32,6 +114,50 @@ function stringToColour(str) {
   return colour;
 }
 
+/**
+ * 生成标题栏结构体
+ * 
+ * @param {string} title - 标题
+ * @returns HTML 结构体
+ */
+function generateTitlebar(title) {
+  let os = setting.os;
+  let chatControls = '';
+
+  switch (os) {
+    case 'mac':
+      chatControls = `
+        <button class="circle close">${titlebarIcon[os].close}</button>
+        <button class="circle minimize">${titlebarIcon[os].minimize}</button>
+        <button class="circle stretch"> ${titlebarIcon[os].stretch}</button>
+      `;
+      break;
+    case 'windows':
+      chatControls = `
+        <button class="minimize">${titlebarIcon[os].minimize}</button>
+        <button class="stretch"> ${titlebarIcon[os].stretch}</button>
+        <button class="close">${titlebarIcon[os].close}</button>
+      `;
+      break;
+    default:
+      console.error(`os "${os} is invalid argument"`);
+      break;
+  }
+
+  return `
+    <header class="titlebar ${os}">
+      <div class="controls">${chatControls}</div>
+      <span class="title">${title}</span>
+    </header>
+  `;
+}
+
+/**
+ * 生成头像结构体
+ * 
+ * @param {string} nickname - 昵称
+ * @returns HTML 结构体
+ */
 function generateAvatar(nickname) {
   const colour = stringToColour(nickname);
   const firstChar = nickname.substring(0, 1);
@@ -61,18 +187,11 @@ function renderChat(content, vm) {
       panelTitle = TitleMatch[2];
       chatPanel = chatPanel.replace(regex.panelTitleMarkup, '');
     }
-    const chatControls = `
-      <div class="${classNames.chatControls}">
-        <div class="circle red"></div>
-        <div class="circle yellow"></div>
-        <div class="circle green"></div>
-        <div class="title">${panelTitle}</div>
-      </div>
-    `;
+    const chatTitlebar = generateTitlebar(panelTitle);
 
     if (hasComments) {
-      chatStartReplacement = `<div class="${classNames.chatPanel}">${chatControls}`;
-      chatEndReplacement = `</div>`;
+      chatStartReplacement = `<section class="${classNames.chatPanel}">${chatTitlebar}<main class="main-area">`;
+      chatEndReplacement = `</main></section>`;
 
       while (chatMatch = regex.chatCommentMarkup.exec(chatPanel)) {
         const nickname = chatMatch[2];
@@ -83,15 +202,13 @@ function renderChat(content, vm) {
           ? `<div class="avatar"><img src="${user.avatar}"></div>`
           : generateAvatar(nickname);
         const chatContentTemplate = `
-          <div class="chat-content">
-            <div class="chat-message ${!isMe ? '' : 'myself'}">
-              $1
-              <div class="message-box">
-                <div class="nickname">${nickname}</div>
-                <div class="message">${message}</div>
-              </div>
-              $2
+          <div class="chat-message ${!isMe ? '' : 'myself'}">
+            $1
+            <div class="message-box">
+              <div class="nickname">${nickname}</div>
+              <div class="message">${message}</div>
             </div>
+            $2
           </div>
         `;
         const avatarPosition = !isMe
@@ -124,18 +241,16 @@ function docsifyChat(hook, vm) {
   hook.doneEach(() => {
     const chat_panel = document.getElementsByClassName(classNames.chatPanel);
     const observer = new IntersectionObserver((entries) => {
-
       entries.forEach(entrie => {
-        let timeoutID;
         const chat_message = entrie.target.getElementsByClassName(classNames.chatMessage);
 
         for (let i = 0; i < chat_message.length; i++) {
           const message = chat_message[i];
 
           if (entrie.isIntersecting) {
-            timeoutID = setTimeout(() => message.classList.add('show'), i * setting.animation);
+            setTimeout(() => message.classList.add('show'), i * setting.animation);
           } else {
-            // TODO ⎛⎝≥⏝⏝≤⎛⎝ clearTimeout
+            // TODO ／人◕ ‿‿ ◕人＼ clearTimeout
             message.classList.remove('show');
           }
         }
