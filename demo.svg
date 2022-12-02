@@ -6,58 +6,110 @@
           position: relative;
           border-radius: 0.5rem;
           margin: 1rem auto;
-          padding: 0.3rem 0;
-          background-color: rgb(246, 248, 250);
-          overflow-x: auto;
+          background-color: #f6f8fa;
+          overflow: hidden;
         }
-
-        .chat-panel .controls {
-          display: initial;
+        
+        .chat-panel button {
+          border: 0;
+          background: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .chat-panel .titlebar.mac {
+          display: flex;
+          justify-content: center;
+          padding: 0.9rem 1rem;
           width: 100%;
-          padding: 0.5rem;
         }
-
-        .chat-panel .controls .circle {
-          display: inline-block;
-          margin: 0.5rem 0rem 0.5rem 0.2rem;
+        
+        .chat-panel .titlebar.mac .title {
+          font-weight: 500;
+          font-size: 0.9rem;
+          line-height: 0.9rem;
+          letter-spacing: 0.5px;
+        }
+        
+        .chat-panel .titlebar.mac .controls {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          display: grid;
+          gap: 0.6rem;
+          grid-template-columns: repeat(3, 0.8rem);
+        }
+        
+        .chat-panel .titlebar.mac .controls svg {
+          opacity: 0;
+        }
+        
+        .chat-panel .titlebar.mac .controls:hover button {
+          transform: scale(1.2);
+        }
+        
+        .chat-panel .titlebar.mac .controls:hover svg {
+          opacity: 1;
+        }
+        
+        .chat-panel .titlebar.mac .controls .close {
+          --bgcolor: #ff5f56;
+          --border-color: #e0443e;
+        }
+        
+        .chat-panel .titlebar.mac .controls .stretch {
+          --bgcolor: #27c93f;
+          --border-color: #1aab29;
+        }
+        
+        .chat-panel .titlebar.mac .controls .stretch svg {
+          transform: rotate(90deg);
+        }
+        
+        .chat-panel .titlebar.mac .controls .minimize {
+          --bgcolor: #ffbd2e;
+          --border-color: #dea123;
+        }
+        
+        .chat-panel .titlebar.mac .controls .circle {
           width: 0.8rem;
           height: 0.8rem;
           border-radius: 50%;
+          background-color: var(--bgcolor);
+          box-shadow: 0 0 0 0.5px var(--border-color);
+          transition: transform 0.1s ease-in;
         }
-
-        .chat-panel .controls .red {
-          background-color: #ff5f56;
-        }
-
-        .chat-panel .controls .yellow {
-          background-color: #ffbd2e;
-        }
-
-        .chat-panel .controls .green {
-          background-color: #27c93f;
-        }
-
-        .chat-panel .controls .title {
-          position: absolute;
-          text-align: center;
-          width: 100%;
-          font-size: 0.8rem;
-          line-height: 1rem;
-          top: 0.8rem;
-        }
-
-        .chat-panel .chat-content {
-          padding: 0 1rem;
-        }
-
+        
         .chat-panel .chat-message {
           position: relative;
-          margin: 1rem 0;
+          padding: 1rem;
           opacity: 0;
           transform: translate(-10%);
           transition: transform 0.4s ease-out, opacity 0.4s ease-in;
         }
-
+        
+        .chat-panel .chat-message.myself {
+          text-align: right;
+          transform: translate(10%);
+        }
+        
+        .chat-panel .chat-message.myself .message-box {
+          margin-left: 0;
+          margin-right: 0.5rem;
+        }
+        
+        .chat-panel .chat-message.myself .nickname {
+          text-align: right;
+        }
+        
+        .chat-panel .chat-message.show {
+          opacity: 1;
+          transform: translate(0);
+        }
+        
         .chat-panel .chat-message .avatar {
           width: 2.5rem;
           height: 2.5rem;
@@ -68,19 +120,27 @@
           text-align: center;
           display: inline-block;
         }
-
+        
+        .chat-panel .chat-message .avatar img {
+          display: inline-flex;
+          line-height: 0;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+        }
+        
         .chat-panel .chat-message .message-box {
           display: inline-block;
           margin-left: 0.5rem;
           max-width: 90%;
           vertical-align: top;
         }
-
+        
         .chat-panel .chat-message .message-box .nickname {
           font-size: 0.8rem;
           color: gray;
         }
-
+        
         .chat-panel .chat-message .message-box .message {
           position: relative;
           font-size: 0.9rem;
@@ -91,30 +151,38 @@
           margin-top: 0.2rem;
           box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
         }
-
-        .chat-panel .show {
-          opacity: 1;
-          transform: translate(0);
-        }
       </style>
 
-      <div class="chat-panel">
-        <div class="controls">
-          <div class="circle red"></div>
-          <div class="circle yellow"></div>
-          <div class="circle green"></div>
-          <div class="title">chat history</div>
-        </div>
-        <div class="chat-content">
-          <div class="chat-message show">
-            <div class="avatar" style="background-color: #7ac538;">y</div>
+      <section class="chat-panel">
+        <header class="titlebar mac">
+          <div class="controls">
+            <button class="circle close">
+              <svg width="7" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path stroke="#000" stroke-width="1.2" stroke-linecap="round" d="M1.182 5.99L5.99 1.182m0 4.95L1.182 1.323"></path>
+              </svg>
+            </button>
+            <button class="circle minimize">
+              <svg width="6" height="1" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path stroke="#000" stroke-width="2" stroke-linecap="round" d="M.61.703h5.8"></path>
+              </svg>
+            </button>
+            <button class="circle stretch">
+              <svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
+                <path d="M4.871 3.553L9.37 8.098V3.553H4.871zm3.134 5.769L3.506 4.777v4.545h4.499z"></path>
+                <circle cx="6.438" cy="6.438" r="6.438" fill="none"></circle>
+              </svg>
+            </button>
+          </div>
+          <span class="title">聊天记录</span>
+        </header>
+        <main class="main-area">
+          <div class="chat-message myself show">
             <div class="message-box">
               <div class="nickname">yuki</div>
               <div class="message">hello</div>
             </div>
+            <div class="avatar" style="background-color: #7ac538;">y</div>
           </div>
-        </div>
-        <div class="chat-content">
           <div class="chat-message show">
             <div class="avatar" style="background-color: #a8d6ba;">k</div>
             <div class="message-box">
@@ -122,8 +190,8 @@
               <div class="message">hello world</div>
             </div>
           </div>
-        </div>
-      </div>
+        </main>
+      </section>
     </div>
   </foreignObject>
 </svg>

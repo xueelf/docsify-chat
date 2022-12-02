@@ -2,6 +2,8 @@
 
 A docsify plugin for generate chat panel from markdown
 
+Read this in other languages: English | [简体中文](./README.zh.md)
+
 ```markdown
 <!-- chat:start -->
 
@@ -102,6 +104,8 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
       myself: 'yuki',
       // animation interval (ms)
       animation: 50,
+      // Panel navigation bar style, supporting "mac" and "windows"
+      os: 'mac',
     }
   };
 </script>
@@ -114,7 +118,7 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
 
 Sets the chat panel title.
 
-You can also set the title for each chat panel individually in `<!-- title:xxx -->`, 
+You can also set the title for each chat panel individually in `<!-- title:xxx -->`.
 
 **Configuration**
 
@@ -190,6 +194,26 @@ window.$docsify = {
   // ...
   chat: {
     animation: 50
+  }
+};
+```
+
+### os
+
+- Type: `string`
+- Default: `null`
+
+Define the system style of the titlebar, support "mac" and "windows".
+
+If it is not set, it will be based on the current browser ` navigator Platform ` Automatic rendering.
+
+**Configuration**
+
+```javascript
+window.$docsify = {
+  // ...
+  chat: {
+    os: 'mac',
   }
 };
 ```
