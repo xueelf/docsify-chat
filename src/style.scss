@@ -16,6 +16,8 @@
   }
 
   .titlebar {
+    text-align: center;
+
     &.mac {
       display: flex;
       justify-content: center;
@@ -130,6 +132,7 @@
 
   .main-area {
     width: 100%;
+    min-height: auto;
 
     .chat-message {
       position: relative;
