@@ -140,7 +140,7 @@ function generateTitlebar(title) {
       `;
       break;
     default:
-      console.error(`os "${os} is invalid argument"`);
+      console.error(`os "${os}" is invalid argument`);
       break;
   }
 
