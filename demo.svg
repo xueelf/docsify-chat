@@ -56,12 +56,12 @@
         }
         
         .chat-panel .titlebar.mac .controls .close {
-          --bgcolor: #ff5f56;
+          --bg-color: #ff5f56;
           --border-color: #e0443e;
         }
         
         .chat-panel .titlebar.mac .controls .stretch {
-          --bgcolor: #27c93f;
+          --bg-color: #27c93f;
           --border-color: #1aab29;
         }
         
@@ -70,7 +70,7 @@
         }
         
         .chat-panel .titlebar.mac .controls .minimize {
-          --bgcolor: #ffbd2e;
+          --bg-color: #ffbd2e;
           --border-color: #dea123;
         }
         
@@ -78,7 +78,7 @@
           width: 0.8rem;
           height: 0.8rem;
           border-radius: 50%;
-          background-color: var(--bgcolor);
+          background-color: var(--bg-color);
           box-shadow: 0 0 0 0.5px var(--border-color);
           transition: transform 0.1s ease-in;
         }

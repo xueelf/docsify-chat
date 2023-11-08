@@ -6,12 +6,12 @@ export default {
   input: 'src/index.js',
   output: [
     { file: 'lib/docsify-chat.js', format: 'iife' },
-    { file: 'lib/docsify-chat.min.js', format: 'iife', plugins: [terser()] }
+    { file: 'lib/docsify-chat.min.js', format: 'iife', plugins: [terser()] },
   ],
   plugins: [
     json(),
     sass({
-      insert: true
+      insert: true,
     }),
-  ]
-}
+  ],
+};

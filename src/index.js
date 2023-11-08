@@ -18,7 +18,7 @@ const setting = {
   myself: null,
   animation: 50,
 };
-const titlebarIcon = {
+const titleBarIcon = {
   mac: {
     close: `
       <svg width="7" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,47 +96,47 @@ const titlebarIcon = {
 
 /**
  * 字符串转换 color 十六进制
- * 
+ *
  * @param {string} str - 字符
  * @returns 十六进制
  */
-function stringToColour(str) {
+function stringToColor(str) {
   let hash = 0;
-  let colour = '#';
+  let color = '#';
 
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
   for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xFF;
-    colour += ('00' + value.toString(16)).substr(-2);
+    const value = (hash >> (i * 8)) & 0xff;
+    color += ('00' + value.toString(16)).substr(-2);
   }
-  return colour;
+  return color;
 }
 
 /**
  * 生成标题栏结构体
- * 
+ *
  * @param {string} title - 标题
  * @returns HTML 结构体
  */
-function generateTitlebar(title) {
+function generateTitleBar(title) {
   let os = setting.os;
   let chatControls = '';
 
   switch (os) {
     case 'mac':
       chatControls = `
-        <button class="circle close">${titlebarIcon[os].close}</button>
-        <button class="circle minimize">${titlebarIcon[os].minimize}</button>
-        <button class="circle stretch"> ${titlebarIcon[os].stretch}</button>
+        <button class="circle close">${titleBarIcon[os].close}</button>
+        <button class="circle minimize">${titleBarIcon[os].minimize}</button>
+        <button class="circle stretch"> ${titleBarIcon[os].stretch}</button>
       `;
       break;
     case 'windows':
       chatControls = `
-        <button class="minimize">${titlebarIcon[os].minimize}</button>
-        <button class="stretch"> ${titlebarIcon[os].stretch}</button>
-        <button class="close">${titlebarIcon[os].close}</button>
+        <button class="minimize">${titleBarIcon[os].minimize}</button>
+        <button class="stretch"> ${titleBarIcon[os].stretch}</button>
+        <button class="close">${titleBarIcon[os].close}</button>
       `;
       break;
     default:
@@ -154,16 +154,30 @@ function generateTitlebar(title) {
 
 /**
  * 生成头像结构体
- * 
+ *
  * @param {string} nickname - 昵称
  * @returns HTML 结构体
  */
 function generateAvatar(nickname) {
-  const colour = stringToColour(nickname);
+  const color = stringToColor(nickname);
   const firstChar = nickname.substring(0, 1);
-  const userAvatar = `<div class="avatar" style="background-color: ${colour};">${firstChar}</div>`;
+  const userAvatar = `<div class="avatar" style="background-color: ${color};">${firstChar}</div>`;
 
   return userAvatar;
+}
+
+/**
+ * 将 markdown 图片文本转换为 html img 标签
+ *
+ * @param {string} markdown - 文本内容
+ * @returns 转换后的文本
+ */
+function markdownToImageTag(markdown) {
+  const regex = /!\[(.*?)\]\((.*?)\)/g;
+  const imgTag = '<img class="chat-image" src="$2" alt="$1" />';
+  const text = markdown.replace(regex, imgTag);
+
+  return text;
 }
 
 function renderChat(content, vm) {
@@ -187,7 +201,7 @@ function renderChat(content, vm) {
       panelTitle = TitleMatch[2];
       chatPanel = chatPanel.replace(regex.panelTitleMarkup, '');
     }
-    const chatTitlebar = generateTitlebar(panelTitle);
+    const chatTitlebar = generateTitleBar(panelTitle);
 
     if (hasComments) {
       chatStartReplacement = `<section class="${classNames.chatPanel}">${chatTitlebar}<main class="main-area">`;
@@ -195,14 +209,14 @@ function renderChat(content, vm) {
 
       while (chatMatch = regex.chatCommentMarkup.exec(chatPanel)) {
         const nickname = chatMatch[2];
-        const message = chatMatch[3].trim();
+        const message = markdownToImageTag(chatMatch[3].trim());
         const user = setting.users.filter(item => item.nickname === nickname)[0] ?? {};
-        const isMe = setting.myself === nickname;
+        const is_me = setting.myself === nickname;
         const userAvatar = user.avatar
           ? `<div class="avatar"><img src="${user.avatar}"></div>`
           : generateAvatar(nickname);
         const chatContentTemplate = `
-          <div class="chat-message ${!isMe ? '' : 'myself'}">
+          <div class="chat-message ${!is_me ? '' : 'myself'}">
             $1
             <div class="message-box">
               <div class="nickname">${nickname}</div>
@@ -211,9 +225,7 @@ function renderChat(content, vm) {
             $2
           </div>
         `;
-        const avatarPosition = !isMe
-          ? ['$1', '$2']
-          : ['$2', '$1'];
+        const avatarPosition = !is_me ? ['$1', '$2'] : ['$2', '$1'];
         const chatContent = chatContentTemplate.replace(avatarPosition[0], userAvatar).replace(avatarPosition[1], '');
 
         chatPanel = chatPanel.replace(chatMatch[0], chatContent);
@@ -226,56 +238,77 @@ function renderChat(content, vm) {
   return content;
 }
 
+function createResizeObserver() {
+  return new ResizeObserver(entries => {
+    entries.forEach(({ target }) => {
+      const chatImageElements = target.querySelectorAll('.chat-image');
+
+      for (const element of chatImageElements) {
+        element.style.maxWidth = `calc(${target.offsetWidth / 2}px - 6.5rem)`;
+      }
+    });
+  });
+}
+
+function createIntersectionObserver() {
+  return new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      const chatMessageElements = target.getElementsByClassName(classNames.chatMessage);
+
+      for (let i = 0; i < chatMessageElements.length; i++) {
+        const element = chatMessageElements[i];
+
+        if (isIntersecting) {
+          setTimeout(() => element.classList.add('show'), i * setting.animation);
+        } else {
+          // TODO: ／人◕ ‿‿ ◕人＼ clearTimeout
+          element.classList.remove('show');
+        }
+      }
+    });
+  });
+}
+
 function docsifyChat(hook, vm) {
-  let hasChat = false;
+  let has_chat = false;
+  const resizeObserver = createResizeObserver();
+  const intersectionObserver = createIntersectionObserver();
 
   hook.beforeEach(content => {
-    hasChat = regex.chatPanelMarkup.test(content);
+    has_chat = regex.chatPanelMarkup.test(content);
 
-    if (hasChat) {
+    if (has_chat) {
       content = renderChat(content, vm);
     }
     return content;
   });
 
   hook.doneEach(() => {
-    const chat_panel = document.getElementsByClassName(classNames.chatPanel);
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entrie => {
-        const chat_message = entrie.target.getElementsByClassName(classNames.chatMessage);
+    resizeObserver.disconnect();
+    intersectionObserver.disconnect();
 
-        for (let i = 0; i < chat_message.length; i++) {
-          const message = chat_message[i];
+    if (!has_chat) {
+      return;
+    }
+    const chatPanelElements = document.getElementsByClassName(classNames.chatPanel);
 
-          if (entrie.isIntersecting) {
-            setTimeout(() => message.classList.add('show'), i * setting.animation);
-          } else {
-            // TODO ／人◕ ‿‿ ◕人＼ clearTimeout
-            message.classList.remove('show');
-          }
-        }
-      });
-    });
-
-    for (const element of chat_panel) {
-      observer.observe(element);
+    for (const element of chatPanelElements) {
+      resizeObserver.observe(element);
+      intersectionObserver.observe(element);
     }
   });
 }
 
 if (window) {
-  window.$docsify = window.$docsify ?? {};
-  window.$docsify.chat = window.$docsify.chat ?? {};
+  window.$docsify ??= {};
+  window.$docsify.chat ??= {};
+  window.$docsify.plugins ??= [];
 
-  Object.keys(window.$docsify.chat).forEach(key => {
+  for (const key in window.$docsify.chat) {
     if (Object.prototype.hasOwnProperty.call(setting, key)) {
       setting[key] = window.$docsify.chat[key];
     }
-  });
-
+  }
   window.$docsify.chat.version = version;
-  window.$docsify.plugins = [].concat(
-    docsifyChat,
-    (window.$docsify.plugins ?? [])
-  );
+  window.$docsify.plugins = [docsifyChat, ...window.$docsify.plugins];
 }

@@ -1,3 +1,10 @@
+// 移动端适配
+@media screen and (max-width: 768px) {
+  .controls {
+    display: none !important;
+  }
+}
+
 .chat-panel {
   position: relative;
   border-radius: 0.5rem;
@@ -54,12 +61,12 @@
         }
 
         .close {
-          --bgcolor: #ff5f56;
+          --bg-color: #ff5f56;
           --border-color: #e0443e;
         }
 
         .stretch {
-          --bgcolor: #27c93f;
+          --bg-color: #27c93f;
           --border-color: #1aab29;
         }
 
@@ -68,7 +75,7 @@
         }
 
         .minimize {
-          --bgcolor: #ffbd2e;
+          --bg-color: #ffbd2e;
           --border-color: #dea123;
         }
 
@@ -76,7 +83,7 @@
           width: 0.8rem;
           height: 0.8rem;
           border-radius: 50%;
-          background-color: var(--bgcolor);
+          background-color: var(--bg-color);
           box-shadow: 0 0 0 0.5px var(--border-color);
           transition: transform 0.1s ease-in;
         }
@@ -119,11 +126,11 @@
           background: rgba(136, 136, 136, 0.2);
         }
 
-        button[class="close"]:hover {
+        button[class='close']:hover {
           background: rgba(255, 0, 0, 0.8);
         }
 
-        button[class="close"]:hover svg {
+        button[class='close']:hover svg {
           filter: invert(1);
         }
       }
@@ -135,6 +142,7 @@
     min-height: auto;
 
     .chat-message {
+      display: flex;
       position: relative;
       padding: 1rem;
       opacity: 0;
@@ -142,8 +150,8 @@
       transition: transform 0.4s ease-out, opacity 0.4s ease-in;
 
       &.myself {
-        text-align: right;
         transform: translate(10%);
+        justify-content: flex-end;
 
         .message-box {
           margin-left: 0;
@@ -164,11 +172,11 @@
         width: 2.5rem;
         height: 2.5rem;
         overflow: hidden;
+        flex-shrink: 0;
         border-radius: 50%;
         line-height: 2.5rem;
         color: #fff;
         text-align: center;
-        display: inline-block;
 
         img {
           display: inline-flex;
@@ -200,6 +208,13 @@
           margin-top: 0.2rem;
           box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
             rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+
+          .chat-image {
+            display: block;
+            min-width: 5rem;
+            border-radius: 0.3rem;
+            margin-bottom: 0.3rem;
+          }
         }
       }
     }
