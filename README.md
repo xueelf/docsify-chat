@@ -45,7 +45,7 @@ Read this in other languages: English | [简体中文](./README.zh.md)
          { nickname: 'yuki', avatar: '' },
          { nickname: 'kokkoro', avatar: '' },
        ],
-     }
+     },
    };
    ```
 
@@ -106,7 +106,7 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
       animation: 50,
       // Panel navigation bar style, supporting "mac" and "windows"
       os: 'mac',
-    }
+    },
   };
 </script>
 ```
@@ -126,8 +126,8 @@ You can also set the title for each chat panel individually in `<!-- title:xxx -
 window.$docsify = {
   // ...
   chat: {
-    title: 'chat history'
-  }
+    title: 'chat history',
+  },
 };
 ```
 
@@ -157,8 +157,8 @@ window.$docsify = {
     users: [
       { nickname: 'yuki', avatar: 'images/yuki.png' },
       { nickname: 'kokkoro', avatar: 'images/kokkoro.png' },
-    ]
-  }
+    ],
+  },
 };
 ```
 
@@ -175,8 +175,8 @@ Set your own global nickname, the dialog will be displayed on the right side of 
 window.$docsify = {
   // ...
   chat: {
-    myself: 'yuki'
-  }
+    myself: 'yuki',
+  },
 };
 ```
 
@@ -193,8 +193,8 @@ Adjust the duration of the chat panel fade-in and fade-out animation.
 window.$docsify = {
   // ...
   chat: {
-    animation: 50
-  }
+    animation: 50,
+  },
 };
 ```
 
@@ -205,7 +205,7 @@ window.$docsify = {
 
 Define the system style of the titlebar, support "mac" and "windows".
 
-If it is not set, it will be based on the current browser ` navigator Platform ` Automatic rendering.
+If it is not set, it will be based on the current browser `navigator Platform` Automatic rendering.
 
 **Configuration**
 
@@ -214,7 +214,7 @@ window.$docsify = {
   // ...
   chat: {
     os: 'mac',
-  }
+  },
 };
 ```
 

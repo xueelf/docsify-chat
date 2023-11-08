@@ -45,7 +45,7 @@
          { nickname: 'yuki', avatar: '' },
          { nickname: 'kokkoro', avatar: '' },
        ],
-     }
+     },
    };
    ```
 
@@ -106,7 +106,7 @@
       animation: 50,
       // 面板导航栏风格，支持 "mac" 与 "windows"
       os: 'mac',
-    }
+    },
   };
 </script>
 ```
@@ -126,8 +126,8 @@
 window.$docsify = {
   // ...
   chat: {
-    title: '聊天记录'
-  }
+    title: '聊天记录',
+  },
 };
 ```
 
@@ -157,8 +157,8 @@ window.$docsify = {
     users: [
       { nickname: 'yuki', avatar: 'images/yuki.png' },
       { nickname: 'kokkoro', avatar: 'images/kokkoro.png' },
-    ]
-  }
+    ],
+  },
 };
 ```
 
@@ -175,8 +175,8 @@ window.$docsify = {
 window.$docsify = {
   // ...
   chat: {
-    myself: 'yuki'
-  }
+    myself: 'yuki',
+  },
 };
 ```
 
@@ -193,8 +193,8 @@ window.$docsify = {
 window.$docsify = {
   // ...
   chat: {
-    animation: 50
-  }
+    animation: 50,
+  },
 };
 ```
 
@@ -214,7 +214,7 @@ window.$docsify = {
   // ...
   chat: {
     os: 'mac',
-  }
+  },
 };
 ```
 
