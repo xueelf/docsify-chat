@@ -1,11 +1,11 @@
 {
   "name": "docsify-chat",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A docsify plugin for generate chat panel from markdown",
   "type": "module",
   "main": "lib/docsify-chat.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -30,11 +30,8 @@
   },
   "homepage": "https://github.com/dcyuki/docsify-chat#readme",
   "devDependencies": {
-    "@rollup/plugin-json": "^4.1.0",
-    "rollup": "^4.3.0",
-    "rollup-plugin-sass": "^1.12.21",
-    "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.69.5"
+    "esbuild": "^0.19.5",
+    "esbuild-sass-plugin": "^2.16.0"
   },
   "files": [
     "lib"
