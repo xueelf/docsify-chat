@@ -9,7 +9,7 @@
           background-color: #f6f8fa;
           overflow: hidden;
         }
-        
+
         .chat-panel button {
           border: 0;
           background: none;
@@ -19,22 +19,22 @@
           align-items: center;
           justify-content: center;
         }
-        
-        .chat-panel .titlebar.mac {
+
+        .chat-panel .title-bar.mac {
           display: flex;
           justify-content: center;
           padding: 0.9rem 1rem;
           width: 100%;
         }
-        
-        .chat-panel .titlebar.mac .title {
+
+        .chat-panel .title-bar.mac .title {
           font-weight: 500;
           font-size: 0.9rem;
           line-height: 0.9rem;
           letter-spacing: 0.5px;
         }
-        
-        .chat-panel .titlebar.mac .controls {
+
+        .chat-panel .title-bar.mac .controls {
           position: absolute;
           top: 1rem;
           left: 1rem;
@@ -42,39 +42,39 @@
           gap: 0.6rem;
           grid-template-columns: repeat(3, 0.8rem);
         }
-        
-        .chat-panel .titlebar.mac .controls svg {
+
+        .chat-panel .title-bar.mac .controls svg {
           opacity: 0;
         }
-        
-        .chat-panel .titlebar.mac .controls:hover button {
+
+        .chat-panel .title-bar.mac .controls:hover button {
           transform: scale(1.2);
         }
-        
-        .chat-panel .titlebar.mac .controls:hover svg {
+
+        .chat-panel .title-bar.mac .controls:hover svg {
           opacity: 1;
         }
-        
-        .chat-panel .titlebar.mac .controls .close {
+
+        .chat-panel .title-bar.mac .controls .close {
           --bg-color: #ff5f56;
           --border-color: #e0443e;
         }
-        
-        .chat-panel .titlebar.mac .controls .stretch {
+
+        .chat-panel .title-bar.mac .controls .stretch {
           --bg-color: #27c93f;
           --border-color: #1aab29;
         }
-        
-        .chat-panel .titlebar.mac .controls .stretch svg {
+
+        .chat-panel .title-bar.mac .controls .stretch svg {
           transform: rotate(90deg);
         }
-        
-        .chat-panel .titlebar.mac .controls .minimize {
+
+        .chat-panel .title-bar.mac .controls .minimize {
           --bg-color: #ffbd2e;
           --border-color: #dea123;
         }
-        
-        .chat-panel .titlebar.mac .controls .circle {
+
+        .chat-panel .title-bar.mac .controls .circle {
           width: 0.8rem;
           height: 0.8rem;
           border-radius: 50%;
@@ -82,7 +82,7 @@
           box-shadow: 0 0 0 0.5px var(--border-color);
           transition: transform 0.1s ease-in;
         }
-        
+
         .chat-panel .chat-message {
           position: relative;
           padding: 1rem;
@@ -90,26 +90,26 @@
           transform: translate(-10%);
           transition: transform 0.4s ease-out, opacity 0.4s ease-in;
         }
-        
+
         .chat-panel .chat-message.myself {
           text-align: right;
           transform: translate(10%);
         }
-        
+
         .chat-panel .chat-message.myself .message-box {
           margin-left: 0;
           margin-right: 0.5rem;
         }
-        
+
         .chat-panel .chat-message.myself .nickname {
           text-align: right;
         }
-        
+
         .chat-panel .chat-message.show {
           opacity: 1;
           transform: translate(0);
         }
-        
+
         .chat-panel .chat-message .avatar {
           width: 2.5rem;
           height: 2.5rem;
@@ -120,7 +120,7 @@
           text-align: center;
           display: inline-block;
         }
-        
+
         .chat-panel .chat-message .avatar img {
           display: inline-flex;
           line-height: 0;
@@ -128,19 +128,19 @@
           align-items: center;
           color: #fff;
         }
-        
+
         .chat-panel .chat-message .message-box {
           display: inline-block;
           margin-left: 0.5rem;
           max-width: 90%;
           vertical-align: top;
         }
-        
+
         .chat-panel .chat-message .message-box .nickname {
           font-size: 0.8rem;
           color: gray;
         }
-        
+
         .chat-panel .chat-message .message-box .message {
           position: relative;
           font-size: 0.9rem;
@@ -149,16 +149,18 @@
           word-break: break-all;
           padding: 0.6rem 0.7rem;
           margin-top: 0.2rem;
-          box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+          box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0,
+          0, 0.05) 0px 1px 2px 0px;
         }
       </style>
 
       <section class="chat-panel">
-        <header class="titlebar mac">
+        <header class="title-bar mac">
           <div class="controls">
             <button class="circle close">
               <svg width="7" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path stroke="#000" stroke-width="1.2" stroke-linecap="round" d="M1.182 5.99L5.99 1.182m0 4.95L1.182 1.323"></path>
+                <path stroke="#000" stroke-width="1.2" stroke-linecap="round"
+                  d="M1.182 5.99L5.99 1.182m0 4.95L1.182 1.323"></path>
               </svg>
             </button>
             <button class="circle minimize">
@@ -167,7 +169,8 @@
               </svg>
             </button>
             <button class="circle stretch">
-              <svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
+              <svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path d="M4.871 3.553L9.37 8.098V3.553H4.871zm3.134 5.769L3.506 4.777v4.545h4.499z"></path>
                 <circle cx="6.438" cy="6.438" r="6.438" fill="none"></circle>
               </svg>
