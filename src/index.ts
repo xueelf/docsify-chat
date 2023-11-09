@@ -165,17 +165,27 @@ function generateAvatar(user: User) {
 }
 
 /**
- * 将 markdown 图片文本替换为 img 标签
+ * 生成消息结构体
  *
- * @param markdown - 文本内容
- * @returns 转换后的文本
+ * @param markdown - 原始文本内容
+ * @returns HTML 结构体
  */
-function replaceMarkdownImage(content: string) {
-  const regex = /!\[(.*?)\]\((.*?)\)/g;
-  const imgTag = '<img class="chat-image" src="$2" alt="$1" />';
-  const text = content.trim().replace(regex, imgTag);
+function generateMessage(content: string) {
+  const regex = /!\[(.*?)\]\((.*?)\)/;
+  const segments = content.trim().split('\n');
 
-  return text;
+  for (const segment of segments) {
+    const is_image = regex.test(segment);
+
+    if (is_image) {
+      const imgTag = '<img class="chat-image" src="$2" alt="$1" />';
+      content = content.replace(regex, imgTag);
+    } else {
+      const divTag = `<div>${segment}</div>`;
+      content = content.replace(segment, divTag);
+    }
+  }
+  return content;
 }
 
 function renderChat(content: string, vm: Docsify) {
@@ -205,7 +215,7 @@ function renderChat(content: string, vm: Docsify) {
 
       while ((messageExecs = CHAT_MESSAGE_MARKUP.exec(raw_chat))) {
         const nickname = messageExecs[2];
-        const message = replaceMarkdownImage(messageExecs[3]);
+        const message = generateMessage(messageExecs[3]);
         const user = setting.users.find(item => item.nickname === nickname) ?? {
           nickname,
         };
