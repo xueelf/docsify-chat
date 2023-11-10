@@ -173,19 +173,19 @@ function generateAvatar(user: User) {
 function generateMessage(content: string) {
   const regex = /!\[(.*?)\]\((.*?)\)/;
   const segments = content.trim().split('\n');
-
-  for (const segment of segments) {
+  const message = segments.map(segment => {
     const is_image = regex.test(segment);
 
     if (is_image) {
-      const imgTag = '<img class="chat-image" src="$2" alt="$1" />';
-      content = content.replace(regex, imgTag);
+      const image = '<img class="chat-image" src="$2" alt="$1" />';
+      return segment.replace(regex, image);
     } else {
-      const divTag = `<div>${segment}</div>`;
-      content = content.replace(segment, divTag);
+      const text = `<div class="chat-text">${segment}</div>`;
+      return segment.replace(segment, text);
     }
-  }
-  return content;
+  });
+
+  return message.join('\n');
 }
 
 function renderChat(content: string, vm: Docsify) {
