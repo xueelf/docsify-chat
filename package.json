@@ -1,6 +1,6 @@
 {
   "name": "docsify-chat",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A docsify plugin for generate chat panel from markdown",
   "type": "module",
   "main": "lib/docsify-chat.js",
@@ -31,7 +31,8 @@
   "homepage": "https://github.com/dcyuki/docsify-chat#readme",
   "devDependencies": {
     "esbuild": "^0.19.5",
-    "esbuild-sass-plugin": "^2.16.0"
+    "sass": "^1.69.5",
+    "typescript": "^5.2.2"
   },
   "files": [
     "lib"

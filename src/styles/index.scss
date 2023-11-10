@@ -208,6 +208,10 @@
           box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
             rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 
+          .chat-text {
+            min-height: 1rem;
+          }
+
           .chat-image {
             display: block;
             min-width: 5rem;
