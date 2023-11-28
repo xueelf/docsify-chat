@@ -212,6 +212,7 @@ function renderChat(content: string, vm: Docsify) {
 
     raw_chat = raw_chat.replace(chat_start, chat_start_replacement);
     raw_chat = raw_chat.replace(chat_end, chat_end_replacement);
+    raw_chat = raw_chat.replace(/(\s{2,}|\n)/g, '');
     content = content.replace(chatExecs[0], raw_chat);
   }
   return content;
