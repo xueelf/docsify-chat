@@ -27,7 +27,7 @@ function svgPlugin() {
     setup(build) {
       build.onLoad({ filter: /\.svg$/ }, async args => {
         const raw_svg = await readFile(args.path, 'utf-8');
-        const svg = raw_svg.replace(/(\n|\s{2})/g, '');
+        const svg = raw_svg.replace(/(\n?\s+)/g, ' ');
 
         return {
           contents: svg,
