@@ -148,7 +148,7 @@
       transform: translate(-10%);
       transition: transform 0.4s ease-out, opacity 0.4s ease-in;
 
-      &.myself {
+      &.self {
         transform: translate(10%);
         justify-content: flex-end;
 
@@ -199,6 +199,7 @@
 
         .message {
           position: relative;
+          width: fit-content;
           font-size: 0.9rem;
           border-radius: 0.5rem;
           background-color: #fff;

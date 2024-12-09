@@ -7,18 +7,18 @@
 ```markdown
 <!-- chat:start -->
 
-#### **kokkoro**
+#### **Yuki**
 
-八嘎 hentai 无路赛！
+Hello
 
-#### **yuki**
+#### **Robot**
 
-多来点
+Ciallo ～(∠·ω< )⌒★
 
 <!-- chat:end -->
 ```
 
-![docsify_chat](https://vip2.loli.io/2022/05/10/9HXngprql6w3tmJ.png)
+![docsify_chat](https://cdn.sa.net/2024/12/09/cI9ewyEFLNG6roZ.png)
 
 ## 安装
 
@@ -42,8 +42,8 @@
        title: '聊天记录',
        // 设置头像
        users: [
-         { nickname: 'yuki', avatar: '' },
-         { nickname: 'kokkoro', avatar: '' },
+         { nickname: 'Yuki', avatar: '' },
+         { nickname: 'Robot', avatar: '' },
        ],
      },
    };
@@ -70,11 +70,11 @@
    ```markdown
    <!-- chat:start -->
 
-   #### **yuki**
+   #### **Yuki**
 
    hello
 
-   #### **kokkoro**
+   #### **Robot**
 
    hello world
 
@@ -97,11 +97,11 @@
     // ...
     chat: {
       // 聊天标题
-      title: '聊天记录',
+      title: '对话',
       // 设置头像
       users: [],
       // 在右侧显示消息（自己发出的）
-      myself: 'yuki',
+      self: 'Yuki',
       // 动画延时 （毫秒）
       animation: 50,
       // 面板导航栏风格，支持 "mac" 与 "windows"
@@ -114,7 +114,7 @@
 ### title
 
 - 类型: `string`
-- 默认: `'聊天记录'`
+- 默认: `'Dialog'`
 
 设置聊天面板的全局标题。
 
@@ -136,7 +136,7 @@ window.$docsify = {
 ```markdown
 <!-- chat:start -->
 
-<!-- title:与 yuki 的聊天记录 -->
+<!-- title:与 Yuki 的聊天记录 -->
 
 <!-- chat:end -->
 ```
@@ -155,19 +155,23 @@ window.$docsify = {
   // ...
   chat: {
     users: [
-      { nickname: 'yuki', avatar: 'images/yuki.png' },
-      { nickname: 'kokkoro', avatar: 'images/kokkoro.png' },
+      { nickname: 'Yuki', avatar: 'images/yuki.png' },
+      { nickname: 'Robot', avatar: 'images/robot.png' },
     ],
   },
 };
 ```
 
-### myself
+### self
+
+> 在 v0.5.0 以前，该属性名为 `"myself"`，现已更名为 `"self"`。
 
 - 类型: `string`
 - 默认: `null`
 
 定义一个昵称，该用户的对话框将显示在聊天面板的右侧。
+
+你还可以在 `<!-- self:xxx -->` 中分别为每个聊天面板单独设置用户。
 
 **配置**
 
@@ -175,9 +179,19 @@ window.$docsify = {
 window.$docsify = {
   // ...
   chat: {
-    myself: 'yuki',
+    self: 'Yuki',
   },
 };
+```
+
+**语法**
+
+```markdown
+<!-- chat:start -->
+
+<!-- self:Robot -->
+
+<!-- chat:end -->
 ```
 
 ### animation
@@ -203,7 +217,7 @@ window.$docsify = {
 - 类型: `string`
 - 默认: `null`
 
-定义标题栏的系统风格，支持 "mac" 与 "windows"
+定义标题栏的系统风格，支持 `"mac"` 与 `"windows"`。
 
 如果不设置，将会根据当前浏览器 `navigator.platform` 自动渲染。
 

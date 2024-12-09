@@ -7,18 +7,18 @@ Read this in other languages: English | [简体中文](./README.zh.md)
 ```markdown
 <!-- chat:start -->
 
-#### **kokkoro**
+#### **Yuki**
 
-八嘎 hentai 无路赛！
+Hello
 
-#### **yuki**
+#### **Robot**
 
-多来点
+Ciallo ～(∠·ω< )⌒★
 
 <!-- chat:end -->
 ```
 
-![docsify_chat](https://vip2.loli.io/2022/05/10/9HXngprql6w3tmJ.png)
+![docsify_chat](https://cdn.sa.net/2024/12/09/cI9ewyEFLNG6roZ.png)
 
 ## Installation
 
@@ -39,11 +39,11 @@ Read this in other languages: English | [简体中文](./README.zh.md)
      // ...
      chat: {
        // chat panel title
-       title: '聊天记录',
+       title: 'Dialog',
        // set avatar url
        users: [
-         { nickname: 'yuki', avatar: '' },
-         { nickname: 'kokkoro', avatar: '' },
+         { nickname: 'Yuki', avatar: '' },
+         { nickname: 'Robot', avatar: '' },
        ],
      },
    };
@@ -70,11 +70,11 @@ Read this in other languages: English | [简体中文](./README.zh.md)
    ```markdown
    <!-- chat:start -->
 
-   #### **kokkoro**
+   #### **Yuki**
 
    hello
 
-   #### **yuki**
+   #### **Robot**
 
    hello world
 
@@ -97,11 +97,11 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
     // ...
     chat: {
       // chat panel title
-      title: '聊天记录',
+      title: 'Dialog',
       // set avatar url
       users: [],
       // message dialog on the right (myself)
-      myself: 'yuki',
+      self: 'Yuki',
       // animation interval (ms)
       animation: 50,
       // Panel navigation bar style, supporting "mac" and "windows"
@@ -114,7 +114,7 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
 ### title
 
 - Type: `string`
-- Default: `'聊天记录'`
+- Default: `'Dialog'`
 
 Sets the chat panel title.
 
@@ -136,7 +136,7 @@ window.$docsify = {
 ```markdown
 <!-- chat:start -->
 
-<!-- title:yuki's chat history -->
+<!-- title:Yuki's chat history -->
 
 <!-- chat:end -->
 ```
@@ -155,19 +155,23 @@ window.$docsify = {
   // ...
   chat: {
     users: [
-      { nickname: 'yuki', avatar: 'images/yuki.png' },
-      { nickname: 'kokkoro', avatar: 'images/kokkoro.png' },
+      { nickname: 'Yuki', avatar: 'images/yuki.png' },
+      { nickname: 'Robot', avatar: 'images/robot.png' },
     ],
   },
 };
 ```
 
-### myself
+### self
+
+> Before v0.5.0, this attribute was named 'myself', but it has now been renamed 'self'.
 
 - Type: `string`
 - Default: `null`
 
 Set your own global nickname, the dialog will be displayed on the right side of the chat panel.
+
+You can also set the user for each chat panel individually in `<!-- self:xxx -->`.
 
 **Configuration**
 
@@ -175,9 +179,19 @@ Set your own global nickname, the dialog will be displayed on the right side of 
 window.$docsify = {
   // ...
   chat: {
-    myself: 'yuki',
+    myself: 'Yuki',
   },
 };
+```
+
+**Example**
+
+```markdown
+<!-- chat:start -->
+
+<!-- self:Robot -->
+
+<!-- chat:end -->
 ```
 
 ### animation
@@ -203,7 +217,7 @@ window.$docsify = {
 - Type: `string`
 - Default: `null`
 
-Define the system style of the titlebar, support "mac" and "windows".
+Define the system style of the title bar, support `"mac"` and `"windows"`.
 
 If it is not set, it will be based on the current browser `navigator Platform` Automatic rendering.
 

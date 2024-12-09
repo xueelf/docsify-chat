@@ -91,17 +91,17 @@
           transition: transform 0.4s ease-out, opacity 0.4s ease-in;
         }
 
-        .chat-panel .chat-message.myself {
+        .chat-panel .chat-message.self {
           text-align: right;
           transform: translate(10%);
         }
 
-        .chat-panel .chat-message.myself .message-box {
+        .chat-panel .chat-message.self .message-box {
           margin-left: 0;
           margin-right: 0.5rem;
         }
 
-        .chat-panel .chat-message.myself .nickname {
+        .chat-panel .chat-message.self .nickname {
           text-align: right;
         }
 
@@ -143,6 +143,7 @@
 
         .chat-panel .chat-message .message-box .message {
           position: relative;
+          width: fit-content;
           font-size: 0.9rem;
           border-radius: 0.5rem;
           background-color: #fff;
@@ -176,12 +177,12 @@
               </svg>
             </button>
           </div>
-          <span class="title">聊天记录</span>
+          <span class="title">Dialog</span>
         </header>
         <main class="main-area">
-          <div class="chat-message myself show">
+          <div class="chat-message self show">
             <div class="message-box">
-              <div class="nickname">yuki</div>
+              <div class="nickname">Yuki</div>
               <div class="message">hello</div>
             </div>
             <div class="avatar" style="background-color: #7ac538;">y</div>
@@ -189,7 +190,7 @@
           <div class="chat-message show">
             <div class="avatar" style="background-color: #a8d6ba;">k</div>
             <div class="message-box">
-              <div class="nickname">kokkoro</div>
+              <div class="nickname">Robot</div>
               <div class="message">hello world</div>
             </div>
           </div>

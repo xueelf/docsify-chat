@@ -17,6 +17,7 @@ export interface DocsifyChatSetting {
   [key: string]: unknown;
   animation: number;
   myself: string | null;
+  self: string | null;
   os: 'mac' | 'windows';
   title: string;
   users: User[];
@@ -33,14 +34,16 @@ const IS_MAC = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 const CHAT_PANEL_MARKUP =
   /( *)(<!-+\s+chat:\s*?start\s+-+>)(?:(?!(<!-+\s+chat:\s*?(?:start|end)\s+-+>))[\s\S])*(<!-+\s+chat:\s*?end\s+-+>)/;
 const CHAT_TITLE_MARKUP = /[\r\n]*(\s*)<!-+\s+title:\s*(.*)\s+-+>/;
+const CHAT_SELF_MARKUP = /[\r\n]*(\s*)<!-+\s+self:\s*(.*)\s+-+>/;
 const CHAT_MESSAGE_MARKUP =
   /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+chat:\s*?end\s+-+>)/m;
 
 const setting: DocsifyChatSetting = {
   animation: 50,
   myself: null,
+  self: null,
   os: IS_MAC ? 'mac' : 'windows',
-  title: '聊天记录',
+  title: 'Dialog',
   users: [],
   version,
 };
@@ -103,7 +106,7 @@ function generateTitleBar(title: string) {
       `;
       break;
     default:
-      console.error(`os "${os}" is invalid argument`);
+      console.warn(`os "${os}" is invalid argument`);
       break;
   }
 
@@ -165,10 +168,12 @@ function renderChat(content: string, vm: Docsify) {
   while ((chatExecs = CHAT_PANEL_MARKUP.exec(content))) {
     let raw_chat = chatExecs[0];
     let title = setting.title;
+    let self = setting.self || setting.myself;
     let chat_start_replacement = '';
     let chat_end_replacement = '';
 
     const has_title = CHAT_TITLE_MARKUP.test(raw_chat);
+    const has_self = CHAT_SELF_MARKUP.test(raw_chat);
     const has_message = CHAT_MESSAGE_MARKUP.test(raw_chat);
 
     if (has_title) {
@@ -178,6 +183,13 @@ function renderChat(content: string, vm: Docsify) {
       raw_chat = raw_chat.replace(CHAT_TITLE_MARKUP, '');
     }
     const chat_title_bar = generateTitleBar(title);
+
+    if (has_self) {
+      const selfExecs = CHAT_SELF_MARKUP.exec(raw_chat)!;
+
+      self = selfExecs[2];
+      raw_chat = raw_chat.replace(CHAT_SELF_MARKUP, '');
+    }
 
     if (has_message) {
       chat_start_replacement = `<section class="${ClassName.ChatPanel}">${chat_title_bar}<main class="main-area">`;
@@ -189,10 +201,10 @@ function renderChat(content: string, vm: Docsify) {
         const user = setting.users.find(item => item.nickname === nickname) ?? {
           nickname,
         };
-        const is_me = setting.myself === nickname;
+        const is_me = self === nickname;
         const avatar = generateAvatar(user);
         const chatContentTemplate = `
-          <div class="chat-message ${!is_me ? '' : 'myself'}">
+          <div class="chat-message ${!is_me ? '' : 'self'}">
             $1
             <div class="message-box">
               <div class="nickname">${nickname}</div>
@@ -202,7 +214,9 @@ function renderChat(content: string, vm: Docsify) {
           </div>
         `;
         const avatarPosition = !is_me ? ['$1', '$2'] : ['$2', '$1'];
-        const chatContent = chatContentTemplate.replace(avatarPosition[0], avatar).replace(avatarPosition[1], '');
+        const chatContent = chatContentTemplate
+          .replace(avatarPosition[0], avatar)
+          .replace(avatarPosition[1], '');
 
         raw_chat = raw_chat.replace(messageExecs[0], chatContent);
       }
@@ -269,6 +283,11 @@ function docsifyChat(hook: DocsifyHook, vm: Docsify) {
   });
 
   hook.doneEach(() => {
+    if (setting.myself) {
+      console.error(
+        'The "myself" attribute is about to be abandoned, it is recommended to replace it with "self".',
+      );
+    }
     resizeObserver.disconnect();
     intersectionObserver.disconnect();
 

@@ -1,7 +1,9 @@
 import { DocsifyChatSetting } from '@/index.js';
 
 declare global {
-  type Hook<T = void> = T extends unknown[] ? (callback: (...args: T) => void) => void : (callback: () => void) => void;
+  type Hook<T = void> = T extends unknown[]
+    ? (callback: (...args: T) => void) => void
+    : (callback: () => void) => void;
 
   interface Docsify {}
 
