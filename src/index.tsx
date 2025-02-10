@@ -1,28 +1,10 @@
+import styleContent from '@/styles/index.scss';
 import { version } from 'package.json';
-import '@/styles/index.scss';
+import { Message, TitleBar } from '@/components';
 
-import macClose from '@/icons//mac/close.svg';
-import macMinimize from '@/icons/mac/minimize.svg';
-import macStretch from '@/icons/mac/stretch.svg';
-import windowsClose from '@/icons/windows/close.svg';
-import windowsMinimize from '@/icons/windows/minimize.svg';
-import windowsStretch from '@/icons/windows/stretch.svg';
-
-export interface User {
-  avatar?: string;
-  nickname: string;
-}
-
-export interface DocsifyChatSetting {
-  [key: string]: unknown;
-  animation: number;
-  myself: string | null;
-  self: string | null;
-  os: 'mac' | 'windows';
-  title: string;
-  users: User[];
-  version: string;
-}
+const styleElement = document.createElement('style');
+styleElement.textContent = styleContent;
+document.head.appendChild(styleElement);
 
 enum ClassName {
   ChatImage = 'chat-image',
@@ -47,106 +29,17 @@ const setting: DocsifyChatSetting = {
   users: [],
   version,
 };
-const titleBarIcon = {
-  mac: {
-    close: macClose,
-    minimize: macMinimize,
-    stretch: macStretch,
-  },
-  windows: {
-    close: windowsClose,
-    minimize: windowsMinimize,
-    stretch: windowsStretch,
-  },
-};
 
 /**
- * 字符串转换 color 十六进制
+ * 解析消息结构体
  *
- * @param string - 字符
- * @returns 十六进制
- */
-function stringToColor(string: string) {
-  let hash = 0;
-  let color = '#';
-
-  for (let i = 0; i < string.length; i++) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += ('00' + value.toString(16)).substr(-2);
-  }
-  return color;
-}
-
-/**
- * 生成标题栏结构体
- *
- * @param title - 标题
+ * @param markdown - 原始 Markdown 文本
  * @returns HTML 结构体
  */
-function generateTitleBar(title: string) {
-  let os = setting.os;
-  let controls = '';
-
-  switch (os) {
-    case 'mac':
-      controls = `
-        <button class="circle close">${titleBarIcon[os].close}</button>
-        <button class="circle minimize">${titleBarIcon[os].minimize}</button>
-        <button class="circle stretch"> ${titleBarIcon[os].stretch}</button>
-      `;
-      break;
-    case 'windows':
-      controls = `
-        <button class="minimize">${titleBarIcon[os].minimize}</button>
-        <button class="stretch"> ${titleBarIcon[os].stretch}</button>
-        <button class="close">${titleBarIcon[os].close}</button>
-      `;
-      break;
-    default:
-      console.warn(`os "${os}" is invalid argument`);
-      break;
-  }
-
-  return `
-    <header class="title-bar ${os}">
-      <div class="controls">${controls}</div>
-      <span class="title">${title}</span>
-    </header>
-  `;
-}
-
-/**
- * 生成头像结构体
- *
- * @param user - 用户信息
- * @returns HTML 结构体
- */
-function generateAvatar(user: User) {
-  const { avatar, nickname } = user;
-
-  if (avatar) {
-    return `<div class="avatar"><img src="${avatar}"></div>`;
-  } else {
-    const color = stringToColor(nickname);
-    const first_char = nickname.substring(0, 1);
-
-    return `<div class="avatar" style="background-color: ${color};">${first_char}</div>`;
-  }
-}
-
-/**
- * 生成消息结构体
- *
- * @param markdown - 原始文本内容
- * @returns HTML 结构体
- */
-function generateMessage(content: string) {
+function parseContent(markdown: string): string {
   const regex = /!\[(.*?)\]\((.*?)\)/;
-  const segments = content.trim().split('\n');
-  const message = segments.map(segment => {
+  const segments = markdown.trim().split('\n');
+  const content = segments.map(segment => {
     const is_image = regex.test(segment);
 
     if (is_image) {
@@ -158,7 +51,7 @@ function generateMessage(content: string) {
     }
   });
 
-  return message.join('\n');
+  return content.join('');
 }
 
 function renderChat(content: string, vm: Docsify) {
@@ -182,7 +75,7 @@ function renderChat(content: string, vm: Docsify) {
       title = titleExecs[2];
       raw_chat = raw_chat.replace(CHAT_TITLE_MARKUP, '');
     }
-    const chat_title_bar = generateTitleBar(title);
+    const chat_title_bar = <TitleBar title={title} />;
 
     if (has_self) {
       const selfExecs = CHAT_SELF_MARKUP.exec(raw_chat)!;
@@ -197,28 +90,16 @@ function renderChat(content: string, vm: Docsify) {
 
       while ((messageExecs = CHAT_MESSAGE_MARKUP.exec(raw_chat))) {
         const nickname = messageExecs[2];
-        const message = generateMessage(messageExecs[3]);
+        const content = parseContent(messageExecs[3]);
         const user = setting.users.find(item => item.nickname === nickname) ?? {
           nickname,
         };
         const is_me = self === nickname;
-        const avatar = generateAvatar(user);
-        const chatContentTemplate = `
-          <div class="chat-message ${!is_me ? '' : 'self'}">
-            $1
-            <div class="message-box">
-              <div class="nickname">${nickname}</div>
-              <div class="message">${message}</div>
-            </div>
-            $2
-          </div>
-        `;
-        const avatarPosition = !is_me ? ['$1', '$2'] : ['$2', '$1'];
-        const chatContent = chatContentTemplate
-          .replace(avatarPosition[0], avatar)
-          .replace(avatarPosition[1], '');
 
-        raw_chat = raw_chat.replace(messageExecs[0], chatContent);
+        raw_chat = raw_chat.replace(
+          messageExecs[0],
+          <Message user={user} content={content} self={is_me} />,
+        );
       }
     }
     const chat_start = chatExecs[2];
@@ -236,11 +117,11 @@ function createResizeObserver() {
   return new ResizeObserver(entries => {
     entries.forEach(entry => {
       const { target } = entry;
-      const { offsetWidth } = <HTMLDivElement>target;
+      const { offsetWidth } = target as HTMLDivElement;
       const chatImageElements = target.getElementsByClassName(ClassName.ChatImage);
 
       for (let i = 0; i < chatImageElements.length; i++) {
-        const element = <HTMLDivElement>chatImageElements[i];
+        const element = chatImageElements[i] as HTMLDivElement;
         element.style.maxWidth = `calc((${offsetWidth}px - 5rem) / 2)`;
       }
     });
@@ -269,7 +150,6 @@ function createIntersectionObserver() {
 
 function docsifyChat(hook: DocsifyHook, vm: Docsify) {
   let has_chat: boolean;
-
   const resizeObserver = createResizeObserver();
   const intersectionObserver = createIntersectionObserver();
 
@@ -281,10 +161,9 @@ function docsifyChat(hook: DocsifyHook, vm: Docsify) {
     }
     return content;
   });
-
   hook.doneEach(() => {
     if (setting.myself) {
-      console.error(
+      console.warn(
         'The "myself" attribute is about to be abandoned, it is recommended to replace it with "self".',
       );
     }
@@ -305,15 +184,8 @@ function docsifyChat(hook: DocsifyHook, vm: Docsify) {
   });
 }
 
-if (window) {
-  window.$docsify ??= {};
-  window.$docsify.chat ??= {};
-
-  for (const key in window.$docsify.chat) {
-    if (Object.prototype.hasOwnProperty.call(setting, key)) {
-      setting[key] = window.$docsify.chat[key];
-    }
-  }
-  window.$docsify.plugins ??= [];
-  window.$docsify.plugins = [docsifyChat, ...window.$docsify.plugins];
-}
+window.$docsify ??= {};
+window.$docsify.chat ??= {};
+window.$docsify.plugins ??= [];
+window.$docsify.plugins.push(docsifyChat);
+Object.assign(window.$docsify.chat, setting);

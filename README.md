@@ -39,11 +39,11 @@ Ciallo ～(∠·ω< )⌒★
      // ...
      chat: {
        // chat panel title
-       title: 'Dialog',
+       title: "Dialog",
        // set avatar url
        users: [
-         { nickname: 'Yuki', avatar: '' },
-         { nickname: 'Robot', avatar: '' },
+         { nickname: "Yuki", avatar: "" },
+         { nickname: "Robot", avatar: "" },
        ],
      },
    };
@@ -85,7 +85,7 @@ Ciallo ～(∠·ω< )⌒★
 
    If you do not specify a user avatar, the initials of the nickname will be displayed by default.
 
-   ![demo](/demo.svg)
+   ![example](/example.svg)
 
 ## Options
 
@@ -97,15 +97,15 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
     // ...
     chat: {
       // chat panel title
-      title: 'Dialog',
-      // set avatar url
+      title: "Robot's chat history",
+      // set avatars
       users: [],
       // message dialog on the right (myself)
-      self: 'Yuki',
+      self: "Yuki",
       // animation interval (ms)
       animation: 50,
       // Panel navigation bar style, supporting "mac" and "windows"
-      os: 'mac',
+      os: "mac",
     },
   };
 </script>
@@ -136,7 +136,7 @@ window.$docsify = {
 ```markdown
 <!-- chat:start -->
 
-<!-- title:Yuki's chat history -->
+<!-- title:Robot's chat history -->
 
 <!-- chat:end -->
 ```
@@ -146,7 +146,7 @@ window.$docsify = {
 - Type: `array`
 - Default: `[]`
 
-Specify a nickname to match the user's avatar.
+Specify a nickname to match the user's avatar, support network URL.
 
 **Configuration**
 
@@ -164,7 +164,7 @@ window.$docsify = {
 
 ### self
 
-> Before v0.5.0, this attribute was named 'myself', but it has now been renamed 'self'.
+> Before v0.5.0, this attribute was named `"myself"`, but it has now been renamed 'self'.
 
 - Type: `string`
 - Default: `null`
@@ -179,7 +179,7 @@ You can also set the user for each chat panel individually in `<!-- self:xxx -->
 window.$docsify = {
   // ...
   chat: {
-    myself: 'Yuki',
+    self: 'Yuki',
   },
 };
 ```

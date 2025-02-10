@@ -1,15 +1,19 @@
 {
   "name": "docsify-chat",
-  "version": "0.5.0",
-  "description": "A docsify plugin for generate chat panel from markdown.",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "A docsify plugin for generate chat panel from markdown",
   "main": "lib/docsify-chat.js",
+  "packageManager": "bun@1.2.0",
+  "files": [
+    "lib"
+  ],
   "scripts": {
-    "build": "node build.js"
+    "build": "bun ./scripts/build/index.ts",
+    "test": "bun ./scripts/test/index.tsx"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dcyuki/docsify-chat.git"
+    "url": "git+https://github.com/xueelf/docsify-chat.git"
   },
   "keywords": [
     "docs",
@@ -26,16 +30,15 @@
   "author": "Yuki <admin@yuki.sh>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dcyuki/docsify-chat/issues"
+    "url": "https://github.com/xueelf/docsify-chat/issues"
   },
-  "homepage": "https://github.com/dcyuki/docsify-chat#readme",
+  "homepage": "https://github.com/xueelf/docsify-chat#readme",
   "devDependencies": {
+    "@types/bun": "latest",
     "esbuild": "latest",
-    "sass": "latest",
-    "typescript": "latest"
+    "sass": "latest"
   },
-  "files": [
-    "lib"
-  ],
-  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+  "peerDependencies": {
+    "typescript": "latest"
+  }
 }

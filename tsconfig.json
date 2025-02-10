@@ -1,20 +1,35 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "baseUrl": ".",
+    /* Language and Environment */
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "@/jsx",
+    "moduleDetection": "force",
+
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "package.json": ["package.json"]
+      "@/*": ["src/*"]
     },
-    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+
+    /* Emit */
     "noEmit": true,
+
+    /* Interop Constraints */
+    "verbatimModuleSyntax": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
     "strict": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Completeness */
     "skipLibCheck": true
   },
-  "include": ["src", "types", "package.json"]
+  "include": ["scripts", "src", "types"]
 }

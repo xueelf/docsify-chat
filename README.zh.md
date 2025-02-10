@@ -38,12 +38,12 @@ Ciallo ～(∠·ω< )⌒★
    window.$docsify = {
      // ...
      chat: {
-       // 聊天标题
-       title: '聊天记录',
+       // 聊天面板标题
+       title: "窗口",
        // 设置头像
        users: [
-         { nickname: 'Yuki', avatar: '' },
-         { nickname: 'Robot', avatar: '' },
+         { nickname: "Yuki", avatar: "" },
+         { nickname: "Robot", avatar: "" },
        ],
      },
    };
@@ -85,7 +85,7 @@ Ciallo ～(∠·ω< )⌒★
 
    如果未指定用户头像，则默认情况下将显示昵称的首字母。
 
-   ![demo](/demo.svg)
+   ![example](/example.svg)
 
 ## 配置项
 
@@ -96,16 +96,16 @@ Ciallo ～(∠·ω< )⌒★
   window.$docsify = {
     // ...
     chat: {
-      // 聊天标题
-      title: '对话',
+      // 聊天面板标题
+      title: "Robot的聊天记录",
       // 设置头像
       users: [],
       // 在右侧显示消息（自己发出的）
-      self: 'Yuki',
+      self: "Yuki",
       // 动画延时 （毫秒）
       animation: 50,
       // 面板导航栏风格，支持 "mac" 与 "windows"
-      os: 'mac',
+      os: "mac",
     },
   };
 </script>
@@ -146,7 +146,7 @@ window.$docsify = {
 - 类型: `array`
 - 默认: `[]`
 
-设置用户的头像与昵称。
+设置用户的头像与昵称，支持网络地址。
 
 **配置**
 
