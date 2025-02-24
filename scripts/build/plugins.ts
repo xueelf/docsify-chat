@@ -1,13 +1,13 @@
-import type { Plugin, PluginBuild } from 'esbuild';
+import type { BunPlugin, PluginBuilder } from 'bun';
 import { compileAsync } from 'sass';
 
-export function sassPlugin(): Plugin {
+export function sassPlugin(): BunPlugin {
   return {
     name: 'sass',
-    setup(build: PluginBuild) {
-      build.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
+    setup(builder: PluginBuilder) {
+      builder.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
         const { css } = await compileAsync(path, {
-          style: build.initialOptions.minify ? 'compressed' : 'expanded',
+          style: builder.config.minify ? 'compressed' : 'expanded',
         });
 
         return {
@@ -19,14 +19,14 @@ export function sassPlugin(): Plugin {
   };
 }
 
-export function svgPlugin(): Plugin {
+export function svgPlugin(): BunPlugin {
   return {
     name: 'svg',
-    setup(build: PluginBuild) {
-      build.onLoad({ filter: /\.svg$/ }, async ({ path }) => {
+    setup(builder: PluginBuilder) {
+      builder.onLoad({ filter: /\.svg$/ }, async ({ path }) => {
         let contents = await Bun.file(path).text();
 
-        if (build.initialOptions.minify) {
+        if (builder.config.minify) {
           contents = contents.replace(/\n(\s{2})*/g, '');
         }
         return {

@@ -1,18 +1,18 @@
-import { build, type BuildOptions } from 'esbuild';
+import { build, type BuildConfig } from 'bun';
 import { sassPlugin, svgPlugin } from './plugins';
 
-const buildConfig: BuildOptions = {
-  bundle: true,
-  entryPoints: ['src/index.tsx'],
+const buildConfig: BuildConfig = {
+  entrypoints: ['src/index.tsx'],
+  outdir: 'lib',
   plugins: [sassPlugin(), svgPlugin()],
 };
 
 await build({
   ...buildConfig,
-  outfile: 'lib/docsify-chat.js',
+  naming: 'docsify-chat.[ext]',
 });
 await build({
   ...buildConfig,
   minify: true,
-  outfile: 'lib/docsify-chat.min.js',
+  naming: 'docsify-chat.min.[ext]',
 });

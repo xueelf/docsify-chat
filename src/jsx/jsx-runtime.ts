@@ -1,4 +1,4 @@
-import { camelToKebab } from '../util';
+import { camelToKebab } from '@/util';
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
 const voidElements: string[] = [

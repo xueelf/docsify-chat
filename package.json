@@ -8,7 +8,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "bun ./scripts/build/index.ts",
+    "build": "NODE_ENV=production bun ./scripts/build/index.ts",
     "test": "bun ./scripts/test/index.tsx"
   },
   "repository": {
@@ -35,7 +35,6 @@
   "homepage": "https://github.com/xueelf/docsify-chat#readme",
   "devDependencies": {
     "@types/bun": "latest",
-    "esbuild": "latest",
     "sass": "latest"
   },
   "peerDependencies": {
