@@ -5,6 +5,7 @@
       "name": "docsify-chat",
       "devDependencies": {
         "@types/bun": "latest",
+        "hanno": "^0.0.1",
         "sass": "latest",
       },
       "peerDependencies": {
@@ -56,6 +57,8 @@
     "detect-libc": ["detect-libc@1.0.3", "", { "bin": { "detect-libc": "./bin/detect-libc.js" } }, "sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg=="],
 
     "fill-range": ["fill-range@7.1.1", "", { "dependencies": { "to-regex-range": "^5.0.1" } }, "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg=="],
+
+    "hanno": ["hanno@0.0.1", "", { "peerDependencies": { "typescript": "latest" } }, "sha512-8Qz+sLC+eWDf2VuL+L6//LyYSQO+cATMaf14BMbOum5nUybZr1ahyNhGp9dG7uHR2Cb7PclOAN7c07DTmvMzLg=="],
 
     "immutable": ["immutable@5.0.3", "", {}, "sha512-P8IdPQHq3lA1xVeBRi5VPqUm5HDgKnx0Ru51wZz5mjxHr5n3RWhjIpOFU7ybkUxfB+5IToy+OLaHYDBIWsv+uw=="],
 

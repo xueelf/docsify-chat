@@ -1,6 +1,6 @@
 {
   "name": "docsify-chat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A docsify plugin for generate chat panel from markdown",
   "main": "lib/docsify-chat.js",
   "packageManager": "bun@1.2.0",
@@ -8,8 +8,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "NODE_ENV=production bun ./scripts/build/index.ts",
-    "test": "bun ./scripts/test/index.tsx"
+    "build": "NODE_ENV=production bun ./scripts/build/index.ts"
   },
   "repository": {
     "type": "git",
@@ -35,6 +34,7 @@
   "homepage": "https://github.com/xueelf/docsify-chat#readme",
   "devDependencies": {
     "@types/bun": "latest",
+    "hanno": "^0.0.1",
     "sass": "latest"
   },
   "peerDependencies": {

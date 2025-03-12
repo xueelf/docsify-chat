@@ -17,7 +17,3 @@ export function stringToColor(string: string) {
   }
   return color;
 }
-
-export function camelToKebab(value: string): string {
-  return value.replace(/([A-Z])/g, '-$1').toLowerCase();
-}
