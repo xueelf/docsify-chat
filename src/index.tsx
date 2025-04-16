@@ -188,4 +188,4 @@ window.$docsify ??= {};
 window.$docsify.chat ??= {};
 window.$docsify.plugins ??= [];
 window.$docsify.plugins.push(docsifyChat);
-Object.assign(window.$docsify.chat, setting);
+Object.assign(setting, window.$docsify.chat);
